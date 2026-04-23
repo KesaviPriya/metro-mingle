@@ -65,11 +65,21 @@
             submitBtn.textContent = 'SIGNING IN...';
 
             try {
-                const response = await fetch('/api/login', {
+                // Try simple API first (no rate limits), fallback to Supabase
+                let response = await fetch('/api/login-simple', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ EMAIL, PASSWORD })
                 });
+
+                // If simple API fails, try Supabase API
+                if (!response.ok && response.status === 404) {
+                    response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ EMAIL, PASSWORD })
+                    });
+                }
 
                 const data = await response.json();
 

@@ -81,16 +81,28 @@
             submitBtn.textContent = 'SIGNING UP...';
 
             try {
-                const response = await fetch('/api/signup', {
+                // Try simple API first (no rate limits), fallback to Supabase
+                let response = await fetch('/api/signup-simple', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, EMAIL, PASSWORD, phoneno })
                 });
 
+                // If simple API fails, try Supabase API
+                if (!response.ok && response.status === 404) {
+                    response = await fetch('/api/signup', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, EMAIL, PASSWORD, phoneno })
+                    });
+                }
+
                 const data = await response.json();
 
                 if (response.ok) {
                     alert('Account created successfully! Redirecting...');
+                    // Store user data
+                    localStorage.setItem('user', JSON.stringify(data.user));
                     window.location.href = 'main1.html';
                 } else {
                     alert(data.error || 'Signup failed. Please try again.');
