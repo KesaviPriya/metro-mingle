@@ -1,0 +1,89 @@
+═══════════════════════════════════════════════════════════
+    METROMINGLE - DEPLOYMENT CHECKLIST
+═══════════════════════════════════════════════════════════
+
+✅ COMPLETED:
+  [✓] Fixed 404 error
+  [✓] Created all CSS files
+  [✓] Created JavaScript files
+  [✓] Created API endpoints
+  [✓] Configured Supabase credentials
+  [✓] Installed dependencies
+  [✓] Committed code to Git
+
+═══════════════════════════════════════════════════════════
+
+📋 TODO (IN ORDER):
+
+[ ] STEP 1: Create Database Tables in Supabase
+    → Open: https://lzgbysellzpqiqctapce.supabase.co
+    → SQL Editor → New query
+    → Copy SQL from VERCEL_DEPLOYMENT.md
+    → Run it
+    → Verify 4 tables created
+    ⏱️ Time: 5 minutes
+
+[ ] STEP 2: Enable Email Authentication
+    → Supabase → Authentication → Providers
+    → Toggle "Email" ON
+    → Save
+    ⏱️ Time: 1 minute
+
+[ ] STEP 3: Push Code to GitHub (if not done)
+    → Use GitHub Desktop OR
+    → git push origin main
+    ⏱️ Time: 2 minutes
+
+[ ] STEP 4: Deploy to Vercel
+    → npm install -g vercel
+    → vercel login (use: kesavipriya2006@gmail.com)
+    → vercel --prod
+    ⏱️ Time: 5 minutes
+
+[ ] STEP 5: Add Environment Variables
+    → Vercel Dashboard → Settings → Environment Variables
+    → Add SUPABASE_URL
+    → Add SUPABASE_ANON_KEY
+    → (Values in VERCEL_DEPLOYMENT.md)
+    ⏱️ Time: 2 minutes
+
+[ ] STEP 6: Redeploy
+    → vercel --prod
+    ⏱️ Time: 1 minute
+
+[ ] STEP 7: Configure Supabase Site URL
+    → Supabase → Authentication → URL Configuration
+    → Add your Vercel URL
+    ⏱️ Time: 1 minute
+
+[ ] STEP 8: Test Everything
+    → Visit your Vercel URL
+    → Test event booking form
+    → Test contact form
+    → Check Supabase tables for data
+    ⏱️ Time: 3 minutes
+
+═══════════════════════════════════════════════════════════
+
+📊 TOTAL TIME: ~20 minutes
+
+═══════════════════════════════════════════════════════════
+
+📁 HELPFUL FILES:
+  • QUICK_START.md - Fast deployment guide
+  • VERCEL_DEPLOYMENT.md - Detailed step-by-step
+  • COMPLETE_DEPLOYMENT_GUIDE.md - Full documentation
+  • GIT_PUSH_FIX.md - If git push fails
+
+═══════════════════════════════════════════════════════════
+
+🎯 YOUR CREDENTIALS:
+  Supabase URL: https://lzgbysellzpqiqctapce.supabase.co
+  Supabase Key: (in .env.local - don't share!)
+  Email: kesavipriya2006@gmail.com
+
+═══════════════════════════════════════════════════════════
+
+🚀 START HERE: Open QUICK_START.md
+
+═══════════════════════════════════════════════════════════
