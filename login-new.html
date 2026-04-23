@@ -43,8 +43,26 @@
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const EMAIL = this.querySelector('input[name="EMAIL"]').value;
+            const EMAIL = this.querySelector('input[name="EMAIL"]').value.trim();
             const PASSWORD = this.querySelector('input[name="PASSWORD"]').value;
+
+            // Client-side validation
+            if (!EMAIL || !PASSWORD) {
+                alert('Please enter both email and password');
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(EMAIL)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            // Disable submit button to prevent double submission
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'SIGNING IN...';
 
             try {
                 const response = await fetch('/api/login', {
@@ -61,10 +79,14 @@
                     window.location.href = 'main1.html';
                 } else {
                     alert(data.error || 'Invalid email or password');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'SIGN IN';
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                alert('An error occurred. Please try again.');
+                alert('Network error. Please check your connection and try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'SIGN IN';
             }
         });
     </script>

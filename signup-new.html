@@ -20,10 +20,10 @@
                     </div>
 
                     <form id="signupForm" autocomplete="off">
-                        <input type="text" name="name" placeholder="NAME" required>
+                        <input type="text" name="name" placeholder="NAME" required minlength="2">
                         <input type="email" name="EMAIL" placeholder="EMAIL" required>
-                        <input type="password" name="PASSWORD" placeholder="PASSWORD" required>
-                        <input type="tel" name="phoneno" placeholder="PHONE NO." required>
+                        <input type="password" name="PASSWORD" placeholder="PASSWORD (min 6 characters)" required minlength="6">
+                        <input type="tel" name="phoneno" placeholder="PHONE NO. (10 digits)" required pattern="[0-9]{10,}" minlength="10">
                         <button type="submit" class="sign_in_btn">SIGN UP</button>
                     </form>
                 </div>
@@ -45,15 +45,40 @@
         document.getElementById('signupForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const name = this.querySelector('input[name="name"]').value;
-            const EMAIL = this.querySelector('input[name="EMAIL"]').value;
+            const name = this.querySelector('input[name="name"]').value.trim();
+            const EMAIL = this.querySelector('input[name="EMAIL"]').value.trim();
             const PASSWORD = this.querySelector('input[name="PASSWORD"]').value;
-            const phoneno = this.querySelector('input[name="phoneno"]').value;
+            const phoneno = this.querySelector('input[name="phoneno"]').value.trim();
 
+            // Client-side validation
             if (!name || !EMAIL || !PASSWORD || !phoneno) {
-                alert('Please enter valid information');
+                alert('Please fill in all fields');
                 return;
             }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(EMAIL)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            // Validate password length
+            if (PASSWORD.length < 6) {
+                alert('Password must be at least 6 characters long');
+                return;
+            }
+
+            // Validate phone number
+            if (phoneno.length < 10 || !/^\d+$/.test(phoneno)) {
+                alert('Please enter a valid phone number (at least 10 digits)');
+                return;
+            }
+
+            // Disable submit button to prevent double submission
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'SIGNING UP...';
 
             try {
                 const response = await fetch('/api/signup', {
@@ -65,14 +90,18 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    alert('Account created successfully!');
+                    alert('Account created successfully! Redirecting...');
                     window.location.href = 'main1.html';
                 } else {
                     alert(data.error || 'Signup failed. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'SIGN UP';
                 }
             } catch (error) {
                 console.error('Signup error:', error);
-                alert('An error occurred. Please try again.');
+                alert('Network error. Please check your connection and try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'SIGN UP';
             }
         });
     </script>
