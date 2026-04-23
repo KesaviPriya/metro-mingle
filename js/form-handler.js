@@ -22,6 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Try simple API first (no rate limits), then fallback to regular API
         const simpleAction = form.action.replace('/api/', '/api/') + '-simple';
+        
+        console.log('Submitting to:', simpleAction);
+        console.log('Form data:', data);
+        
         let response = await fetch(simpleAction, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -30,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // If simple API not found, try regular API
         if (!response.ok && response.status === 404) {
+          console.log('Simple API not found, trying regular API:', form.action);
           response = await fetch(form.action, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -38,23 +43,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         const result = await response.json();
+        console.log('API Response:', result);
         
-        if (result.success) {
+        if (response.ok && result.success) {
           alert(result.message || 'Success!');
           
           // Redirect based on form type
           if (form.action.includes('/api/event-booking')) {
             window.location.href = 'regform.html';
           } else if (form.action.includes('/api/payment')) {
+            alert('Payment successful! Thank you for your booking.');
             window.location.href = 'main1.html';
           } else if (form.action.includes('/api/contact')) {
-            window.location.href = 'main1.html';
+            alert('Message sent successfully! We will get back to you soon.');
+            form.reset();
           } else if (form.action.includes('/api/signup')) {
-            window.location.href = 'log.html';
+            window.location.href = 'login-new.html';
           } else if (form.action.includes('/api/login')) {
             // Store session
             if (result.session) {
               localStorage.setItem('session', JSON.stringify(result.session));
+            }
+            if (result.user) {
+              localStorage.setItem('user', JSON.stringify(result.user));
             }
             window.location.href = 'main1.html';
           }
