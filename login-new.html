@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>METROMINGLE Login Page</title>
+    <link type="text/css" rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="imp">
+        <section>
+            <div class="login show" id="one">
+                <div class="textbox slide-left2">
+                    <div class="head">
+                        <h1>Sign In to METROMINGLE</h1>
+                        <ul>
+                            <li><i class="fab fa-facebook-f" style="cursor: pointer;"></i></li>
+                            <li><i class="fab fa-google-plus-g" style="cursor: pointer;"></i></li>
+                            <li><i class="fab fa-linkedin-in" style="cursor: pointer;"></i></li>
+                        </ul>
+                        <h3 style="cursor: pointer;">Use your E-mail ID</h3>
+                    </div>
+
+                    <form id="loginForm" autocomplete="off">
+                        <input type="email" name="EMAIL" placeholder="EMAIL" required>
+                        <input type="password" name="PASSWORD" placeholder="PASSWORD" required>
+                        <button type="submit" class="sign_in_btn">SIGN IN</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="sec show" id="two">
+                <div class="textbox slide-left">
+                    <h1></h1>
+                    <p>Sign up and enjoy the event</p>
+                    <button id="b1" style="cursor: pointer;" class="prompt_sign_up">
+                        <a href="signup-new.html" style="color: white;">SIGN UP</a>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const EMAIL = this.querySelector('input[name="EMAIL"]').value;
+            const PASSWORD = this.querySelector('input[name="PASSWORD"]').value;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ EMAIL, PASSWORD })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    localStorage.setItem('session', JSON.stringify(data.session));
+                    window.location.href = 'main1.html';
+                } else {
+                    alert(data.error || 'Invalid email or password');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

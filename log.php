@@ -203,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <button id="b1" style = "cursor: pointer;" class = 'prompt_sign_up'>
 
                     
-                    <a href ='SIGNUP.php' style = 'color: white;'>
+                    <a href ='signup.html' style = 'color: white;'>
                         
                             SIGN UP
 

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>METROMINGLE Sign Up Page</title>
+    <link type="text/css" rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="imp">
+        <section>
+            <div class="login show" id="one">
+                <div class="textbox slide-left2">
+                    <div class="head">
+                        <h1>Sign UP to METROMINGLE</h1>
+                        <ul>
+                            <li><i class="fab fa-facebook-f" style="cursor: pointer;"></i></li>
+                            <li><i class="fab fa-google-plus-g" style="cursor: pointer;"></i></li>
+                            <li><i class="fab fa-linkedin-in" style="cursor: pointer;"></i></li>
+                        </ul>
+                        <h3 style="cursor: pointer;">ENTER YOUR DETAILS TO CREATE ACCOUNT</h3>
+                    </div>
+
+                    <form id="signupForm" autocomplete="off">
+                        <input type="text" name="name" placeholder="NAME" required>
+                        <input type="email" name="EMAIL" placeholder="EMAIL" required>
+                        <input type="password" name="PASSWORD" placeholder="PASSWORD" required>
+                        <input type="tel" name="phoneno" placeholder="PHONE NO." required>
+                        <button type="submit" class="sign_in_btn">SIGN UP</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="sec show" id="two">
+                <div class="textbox slide-left">
+                    <h1>Already a member?</h1>
+                    <p>Sign in and start shopping.</p>
+                    <button id="b1" style="cursor: pointer;" class="prompt_sign_up">
+                        <a href="login-new.html" style="color: white;">SIGN IN</a>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = this.querySelector('input[name="name"]').value;
+            const EMAIL = this.querySelector('input[name="EMAIL"]').value;
+            const PASSWORD = this.querySelector('input[name="PASSWORD"]').value;
+            const phoneno = this.querySelector('input[name="phoneno"]').value;
+
+            if (!name || !EMAIL || !PASSWORD || !phoneno) {
+                alert('Please enter valid information');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, EMAIL, PASSWORD, phoneno })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Account created successfully!');
+                    window.location.href = 'main1.html';
+                } else {
+                    alert(data.error || 'Signup failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

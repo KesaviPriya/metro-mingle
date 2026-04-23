@@ -4,6 +4,9 @@
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api/:path*" },
+    { "source": "/SIGNUP.php", "destination": "/signup-new.html" },
+    { "source": "/log.php", "destination": "/login-new.html" },
+    { "source": "/login.php", "destination": "/login-new.html" },
     { "source": "/", "destination": "/index.html" }
   ]
 }
