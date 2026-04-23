@@ -1,0 +1,5 @@
+Add your images here:
+- home1.jpg to home6.jpg (for home slider)
+- gallery1.jpg to gallery8.png (for services)
+- about.jpg (for about section)
+- card_img.png (for payment form)

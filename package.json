@@ -1,0 +1,12 @@
+{
+  "name": "metromingle",
+  "version": "1.0.0",
+  "description": "Event booking platform",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  }
+}
